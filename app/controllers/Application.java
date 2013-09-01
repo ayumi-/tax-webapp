@@ -3,7 +3,7 @@ package controllers;
 import play.*;
 import play.mvc.*;
 
-import views.html.*;
+import views.html.application.*;
 
 public class Application extends Controller {
   
