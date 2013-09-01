@@ -6,8 +6,8 @@ import org.springframework.beans.BeanUtils;
 
 public class Party {
 	
-	private Long id;
-	private String name;
+	public Long id;
+	public String name;
 	
 	public Party() {
 	}

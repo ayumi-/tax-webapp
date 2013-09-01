@@ -1,0 +1,44 @@
+@(contracts :List[models.contract.Contract])
+
+@main("契約の一覧") {	
+	<a href="@routes.ContractController.create">
+		<button type="button" class="btn btn-primary btn-lg">
+			<i class="icon-plus-sign icon-left"></i>登録する
+		</button>
+	</a>
+	<br><br>	
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>契約先名</th>
+				<th>締結日</th>
+				<th>契約分類</th>
+				<th>代金条項の丸め方法</th>
+				<th>消費税条項の丸め方法</th>
+				<th>消費税条項の課税単位</th>
+				<th>取引</th>
+			</tr>
+		</thead>
+		<tbody>
+		@for(c <- contracts) {
+			<tr>
+				<td>@c.contractNumber</td>
+				<td>@c.party.name</td>
+				<td>@c.agreementDate.format("yyyy/MM/dd")</td>
+				<td>@c.contractType</td>
+				<td>@c.priceRoundingMethod</td>
+				<td>@c.consumptionTaxRoundingMethod</td>
+				<td>@c.consumptionTaxCalculationBase</td>
+				<td>
+					<a href="@routes.ContractController.create">
+						<button type="button" class="btn btn-primary">
+							<i class="icon-plus-sign"></i>
+						</button>
+					</a>
+				</td>
+			</tr>
+		}
+		</tbody>
+	</table>
+}

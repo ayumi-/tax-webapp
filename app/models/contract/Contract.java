@@ -1,21 +1,23 @@
 package models.contract;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import models.party.Party;
 import utils.ConvertUtils;
 
 public class Contract {
 	
-	private long contractNumber;
-	private Party party;
-	private Date agreementDate;
-	private Date effectiveDate;
-	private Date expiredDate;
-	private ContractType contractType;
-	private RoundingMethod priceRoundingMethod;
-	private RoundingMethod consumptionTaxRoundingMethod;
-	private CalculationBase consumptionTaxCalculationBase;
+	public long contractNumber;
+	public Party party;
+	public Date agreementDate;
+	public Date effectiveDate;
+	public Date expiredDate;
+	public ContractType contractType;
+	public RoundingMethod priceRoundingMethod;
+	public RoundingMethod consumptionTaxRoundingMethod;
+	public CalculationBase consumptionTaxCalculationBase;
 	
 	public Contract(Party party, Date agreementDate, ContractType contractType,
 			RoundingMethod priceRoundingMethod,
@@ -29,6 +31,10 @@ public class Contract {
 		this.consumptionTaxCalculationBase = consumptionTaxCalculationBase;
 	}
 	
+	public Contract() {
+		// オブジェクトをコピーする際に使用する
+	}
+
 	public long getContractNumber() {
 		return contractNumber;
 	}
@@ -71,5 +77,17 @@ public class Contract {
 		dst.save();
 		ConvertUtils.copyBeanProperties(dst, src);
 		return src;
+	}
+
+	public static List<Contract> getList(String sortBy, String order) {
+		List<entities.Contract> list = entities.Contract.findBy(sortBy, order);
+		
+		ArrayList<Contract> result = new ArrayList<Contract>();
+		for (entities.Contract src : list) {
+			Contract dst = new Contract();
+			result.add(dst);
+			ConvertUtils.copyBeanProperties(src, dst);
+		}
+		return result;
 	}
 }

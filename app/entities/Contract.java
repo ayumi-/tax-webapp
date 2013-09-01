@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -35,5 +36,10 @@ public class Contract extends Model {
 	public String consumptionTaxRoundingMethod;
 	
 	public String consumptionTaxCalculationBase;
+	
+	public static Finder<Long, Contract> find = new Finder<Long, Contract>(Long.class, Contract.class);
 
+	public static List<Contract> findBy(String sortBy, String order) {
+		return find.orderBy(sortBy + " " + order).fetch("party").findList();
+	}
 }

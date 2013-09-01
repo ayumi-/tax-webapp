@@ -1,0 +1,27 @@
+@(contractForm: Form[forms.ContractForm])
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(bootstrapInput.render) } 
+
+@main("契約の登録") {
+	@form(action = routes.ContractController.save()) {
+		@inputText(contractForm("party_name"), '_label -> "契約先名")
+		@inputText(contractForm("agreement_date"), '_label -> "締結日",
+			'class -> "datepicker")
+		@select(contractForm("contract_type"), 
+			options = options(ContractController.contract_type_options),
+			'_label -> "契約分類")
+		@select(contractForm("price_rounding_method"), 
+			options = options(ContractController.rounding_method_options),
+			'_label -> "代金条項の丸め方法")
+		@select(contractForm("consumption_tax_rounding_method"), 
+			options = options(ContractController.rounding_method_options),
+			'_label -> "消費税条項の丸め方法")
+		@select(contractForm("consumption_tax_calculation_base"), 
+			options = options(ContractController.calculation_base_options),
+			'_label -> "消費税条項の課税単位")
+		
+		<input type="submit" class="btn btn-primary btn-lg" value="登録する">
+	}
+}

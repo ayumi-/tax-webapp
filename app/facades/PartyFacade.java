@@ -10,6 +10,10 @@ public class PartyFacade {
 		this.party = new Party(partyName);
 	}
 
+	public Party getParty() {
+		return party;
+	}
+	
 	public static Party find(long id) {
 		return Party.find(id);
 	}
@@ -17,5 +21,4 @@ public class PartyFacade {
 	public Party save() {
 		return Party.save(party);
 	}
-
 }

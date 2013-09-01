@@ -2,6 +2,7 @@ package facades;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 
 import utils.DateUtils;
 
@@ -40,6 +41,10 @@ public class ContractFacade {
 
 	public Contract save() {
 		return Contract.save(contract);
+	}
+
+	public static List<Contract> getList(String sortBy, String order) {
+		return Contract.getList(sortBy, order);
 	}
 
 }

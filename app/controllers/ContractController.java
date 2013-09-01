@@ -7,13 +7,12 @@ import java.util.List;
 import models.contract.CalculationBase;
 import models.contract.ContractType;
 import models.contract.RoundingMethod;
-import models.party.Party;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import utils.EnumUtils;
-import views.html.application.index;
-import views.html.contract.createForm;
+import views.html.contract.contractForm;
+import views.html.contract.contractList;
 
 import com.avaje.ebean.annotation.Transactional;
 
@@ -27,21 +26,23 @@ public class ContractController extends Controller {
 	public static List<String> calculation_base_options = EnumUtils.getList(CalculationBase.class);
 	
     public static Result GO_HOME = redirect(
-        routes.ContractController.list(0, "name", "asc", "")
+        routes.ContractController.list("id", "asc")
     );
     
     public static Result index() {
         return GO_HOME;
     }
     
-    public static Result list(int page, String sortBy, String order, String filter) {
-        return ok(index.render("ok"));
+    public static Result list(String sortBy, String order) {
+        return ok(
+        	contractList.render(ContractFacade.getList(sortBy, order))
+        );
     }
     
     public static Result create() {
     	Form<ContractForm> form = form(ContractForm.class);
         return ok(
-        		createForm.render(form)
+        	contractForm.render(form)
         );
     }
     
@@ -50,11 +51,9 @@ public class ContractController extends Controller {
     	ContractForm f = form(ContractForm.class).bindFromRequest().get();
     
     	// TODO バリデーション
-    	PartyFacade pf = new PartyFacade(f.party_name);
-    	Party p = pf.save();
-    	
+    	PartyFacade pf = new PartyFacade(f.party_name);    	
     	ContractFacade cf = new ContractFacade(
-    			p, f.agreement_date, f.contract_type, f.price_rounding_method,
+    			pf.getParty(), f.agreement_date, f.contract_type, f.price_rounding_method,
     			f.consumption_tax_rounding_method, f.consumption_tax_calculation_base);
     	cf.save();
     	

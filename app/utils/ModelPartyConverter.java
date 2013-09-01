@@ -5,14 +5,13 @@ import models.party.Party;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.convert.converter.Converter;
 
-public class PartyConverter implements Converter<Party, entities.Party> {
+public class ModelPartyConverter implements Converter<entities.Party, Party> {
 
 	@Override
-	public entities.Party convert(Party src) {
-		entities.Party dst = new entities.Party();
+	public Party convert(entities.Party src) {
+		Party dst = new Party();
 		BeanUtils.copyProperties(src, dst);
 		return dst;
 	}
 
 }
-

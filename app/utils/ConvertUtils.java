@@ -46,6 +46,7 @@ public class ConvertUtils {
 		Set<Converter<S, T>> converters = new HashSet<Converter<S, T>>();
 	
 		converters.add((Converter<S, T>) new PartyConverter());
+		converters.add((Converter<S, T>) new ModelPartyConverter());
 		
 		return converters;
 	}
