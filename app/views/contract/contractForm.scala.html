@@ -2,26 +2,30 @@
 
 @import helper._
 
-@implicitFieldConstructor = @{ FieldConstructor(bootstrapInput.render) } 
+@implicitFieldConstructor = @{ FieldConstructor(bootstrapInput.f) } 
 
 @main("契約の登録") {
-	@form(action = routes.ContractController.save()) {
-		@inputText(contractForm("party_name"), '_label -> "契約先名")
+	@form(routes.ContractController.save(), 'class -> "form-horizontal") {
+		@inputText(contractForm("party_name"), '_label -> "契約先名", 'class -> "form-control")
 		@inputText(contractForm("agreement_date"), '_label -> "締結日",
-			'class -> "datepicker")
+			'class -> "form-control", 'placeholder -> "yyyy-MM-dd")
 		@select(contractForm("contract_type"), 
 			options = options(ContractController.contract_type_options),
-			'_label -> "契約分類")
+			'_label -> "契約分類", 'class -> "form-control")
 		@select(contractForm("price_rounding_method"), 
 			options = options(ContractController.rounding_method_options),
-			'_label -> "代金条項の丸め方法")
+			'_label -> "代金条項の丸め方法", 'class -> "form-control")
 		@select(contractForm("consumption_tax_rounding_method"), 
 			options = options(ContractController.rounding_method_options),
-			'_label -> "消費税条項の丸め方法")
+			'_label -> "消費税条項の丸め方法", 'class -> "form-control")
 		@select(contractForm("consumption_tax_calculation_base"), 
 			options = options(ContractController.calculation_base_options),
-			'_label -> "消費税条項の課税単位")
+			'_label -> "消費税条項の課税単位", 'class -> "form-control")
 		
-		<input type="submit" class="btn btn-primary btn-lg" value="登録する">
+		  <div class="form-group">
+		    <div class="col-lg-offset-3 col-lg-5">
+			  <button type="submit" class="btn btn-primary btn-lg">登録する</button>
+		    </div>
+		  </div>
 	}
 }

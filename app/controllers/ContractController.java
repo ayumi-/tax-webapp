@@ -49,7 +49,7 @@ public class ContractController extends Controller {
     @Transactional
     public static Result save() {
     	ContractForm f = form(ContractForm.class).bindFromRequest().get();
-    
+    	
     	// TODO バリデーション
     	PartyFacade pf = new PartyFacade(f.party_name);    	
     	ContractFacade cf = new ContractFacade(

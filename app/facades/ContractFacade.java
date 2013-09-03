@@ -4,13 +4,13 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
-import utils.DateUtils;
 
 import models.contract.CalculationBase;
 import models.contract.Contract;
 import models.contract.ContractType;
 import models.contract.RoundingMethod;
 import models.party.Party;
+import utils.DateUtils;
 
 public class ContractFacade {
 
@@ -39,12 +39,12 @@ public class ContractFacade {
     	this.contract = new Contract(p, agreementDate, contractType, priceRoundingMethod, consumptionTaxRoundingMethod, consumptionTaxCalculationBase);
 	}
 
-	public Contract save() {
-		return Contract.save(contract);
+	public void save() {
+		contract.save();
 	}
 
 	public static List<Contract> getList(String sortBy, String order) {
-		return Contract.getList(sortBy, order);
+		return Contract.findBy(sortBy, order);
 	}
 
 }

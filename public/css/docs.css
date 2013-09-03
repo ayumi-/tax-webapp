@@ -1,5 +1,16 @@
 @CHARSET "UTF-8";
 
+body {
+	font-size: 20px;
+}
+
+.dl-horizontal dt {
+	width: 200px;
+}
+
+.dl-horizontal dd {
+	margin-left: 220px;
+}
 .icon-left {
 	padding-right: 0.4rem;
 }

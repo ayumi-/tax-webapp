@@ -1,23 +1,43 @@
 package models.contract;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import models.party.Party;
-import utils.ConvertUtils;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-public class Contract {
+import models.party.Party;
+
+import play.db.ebean.Model;
+
+@Entity
+public class Contract extends Model {
+
+	private static final long serialVersionUID = 7240739265118318434L;
 	
-	public long contractNumber;
+	@Id
+	public Long contractNumber;
+	
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinColumn(name = "party_id")
 	public Party party;
+
 	public Date agreementDate;
+	
 	public Date effectiveDate;
+	
 	public Date expiredDate;
-	public ContractType contractType;
-	public RoundingMethod priceRoundingMethod;
-	public RoundingMethod consumptionTaxRoundingMethod;
-	public CalculationBase consumptionTaxCalculationBase;
+	
+	public String contractType;
+	
+	public String priceRoundingMethod;
+	
+	public String consumptionTaxRoundingMethod;
+	
+	public String consumptionTaxCalculationBase;
 	
 	public Contract(Party party, Date agreementDate, ContractType contractType,
 			RoundingMethod priceRoundingMethod,
@@ -25,69 +45,19 @@ public class Contract {
 			CalculationBase consumptionTaxCalculationBase) {
 		this.party = party;
 		this.agreementDate = agreementDate;
-		this.contractType = contractType;
-		this.priceRoundingMethod = priceRoundingMethod;
-		this.consumptionTaxRoundingMethod = consumptionTaxRoundingMethod;
-		this.consumptionTaxCalculationBase = consumptionTaxCalculationBase;
+		this.contractType = contractType.name();
+		this.priceRoundingMethod = priceRoundingMethod.name();
+		this.consumptionTaxRoundingMethod = consumptionTaxRoundingMethod.name();
+		this.consumptionTaxCalculationBase = consumptionTaxCalculationBase.name();
 	}
 	
-	public Contract() {
-		// オブジェクトをコピーする際に使用する
+	public static Finder<Long, Contract> find = new Finder<Long, Contract>(Long.class, Contract.class);
+
+	public static List<Contract> findBy(String sortBy, String order) {
+		return find.orderBy(sortBy + " " + order).fetch("party").findList();
 	}
 
-	public long getContractNumber() {
-		return contractNumber;
-	}
-	
-	public Party getParty() {
-		return party;
-	}
-	
-	public Date getAgreementDate() {
-		return agreementDate;
-	}
-	
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-	
-	public Date getExpiredDate() {
-		return expiredDate;
-	}
-	
-	public ContractType getContractType() {
-		return contractType;
-	}
-	
-	public RoundingMethod getPriceRoundingMethod() {
-		return priceRoundingMethod;
-	}
-	
-	public RoundingMethod getConsumptionTaxRoundingMethod() {
-		return consumptionTaxRoundingMethod;
-	}
-	
-	public CalculationBase getConsumptionTaxCalculationBase() {
-		return consumptionTaxCalculationBase;
-	}
-	
-	public static Contract save(Contract src) {
-		entities.Contract dst = new entities.Contract();
-		ConvertUtils.copyBeanProperties(src, dst);
-		dst.save();
-		ConvertUtils.copyBeanProperties(dst, src);
-		return src;
-	}
-
-	public static List<Contract> getList(String sortBy, String order) {
-		List<entities.Contract> list = entities.Contract.findBy(sortBy, order);
-		
-		ArrayList<Contract> result = new ArrayList<Contract>();
-		for (entities.Contract src : list) {
-			Contract dst = new Contract();
-			result.add(dst);
-			ConvertUtils.copyBeanProperties(src, dst);
-		}
-		return result;
+	public static Contract findById(long contractNumber) {
+		return find.byId(contractNumber);
 	}
 }

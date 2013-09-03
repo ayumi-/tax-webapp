@@ -13,12 +13,4 @@ public class PartyFacade {
 	public Party getParty() {
 		return party;
 	}
-	
-	public static Party find(long id) {
-		return Party.find(id);
-	}
-
-	public Party save() {
-		return Party.save(party);
-	}
 }

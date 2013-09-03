@@ -1,41 +1,27 @@
 package models.party;
 
-import org.springframework.beans.BeanUtils;
+import javax.persistence.*;
 
+import play.db.ebean.Model;
+import play.data.validation.*;
 
-
-public class Party {
+@Entity
+public class Party extends Model {
 	
+	private static final long serialVersionUID = -4098480397681255405L;
+
+	@Id
 	public Long id;
-	public String name;
 	
-	public Party() {
-	}
+	@Constraints.Required
+	public String name;
 	
 	public Party(String name) {
 		this.name = name;
 	}
 	
-	public Long getId() {
-		return id;
-	}
-	
-	public String getName() {
-		return name;
-	}
+	public static Finder<Long, Party> find = new Finder<Long, Party>(
+		Long.class, Party.class	
+	);
 
-	public static Party find(long id) {
-		entities.Party find = entities.Party.find.byId(id);
-		Party p = new Party();
-		BeanUtils.copyProperties(find, p);
-		return p;
-	}
-
-	public static Party save(Party src) {
-		entities.Party dst = new entities.Party();
-		BeanUtils.copyProperties(src, dst);
-		dst.save();
-		BeanUtils.copyProperties(dst, src);
-		return src;
-	}
 }
