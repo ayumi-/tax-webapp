@@ -3,17 +3,21 @@
 # ~~~~
 
 # application
-GET		/                              controllers.ContractController.list(s ?= "id", o ?= "asc")
+GET		/                              		controllers.ContractController.list(s ?= "id", o ?= "asc")
 
 # contract
-GET		/contracts                      controllers.ContractController.list(s ?= "id", o ?= "asc")
-GET		/contracts/new					controllers.ContractController.create()
-POST	/contracts						controllers.ContractController.save()
+GET		/contracts                      	controllers.ContractController.list(s ?= "id", o ?= "asc")
+GET		/contracts/new						controllers.ContractController.create()
+POST	/contracts							controllers.ContractController.save()
 
 # order
-GET		/contracts/:id/orders/new		controllers.OrderController.create(id :Long)
-POST	/contracts/:id/orders/confirm	controllers.OrderController.confirm(id :Long)
-POST	/contracts/:id/orders			controllers.OrderController.save(id :Long)
+GET		/contracts/:id/orders/new			controllers.OrderController.create(id :Long)
+POST	/contracts/:id/orders/confirm		controllers.OrderController.confirm(id :Long)
+POST	/contracts/:id/orders				controllers.OrderController.save(id :Long)
+
+# trading
+GET		/contracts/:id/tradings				controllers.TradingController.list(id :Long)
+POST	/tradings/:id/cancel				controllers.TradingController.cancel(id :Long)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               	controllers.Assets.at(path="/public", file)
+GET     /assets/*file               		controllers.Assets.at(path="/public", file)

@@ -51,6 +51,18 @@ public class Contract extends Model {
 		this.consumptionTaxCalculationBase = consumptionTaxCalculationBase.name();
 	}
 	
+	public Long getContractNumber() {
+		return contractNumber;
+	}
+	
+	public RoundingMethod getPriceRoundingMethod() {
+		return RoundingMethod.valueOf(priceRoundingMethod);
+	}
+	
+	public CalculationBase getConsumptionTaxCalculationBase() {
+		return CalculationBase.valueOf(consumptionTaxCalculationBase);
+	}
+	
 	public static Finder<Long, Contract> find = new Finder<Long, Contract>(Long.class, Contract.class);
 
 	public static List<Contract> findBy(String sortBy, String order) {

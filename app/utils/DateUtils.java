@@ -12,4 +12,8 @@ public class DateUtils {
 		return date;
 	}
 
+	public static String toString(Date date, String pattern) {
+		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+		return sdf.format(date);
+	}
 }

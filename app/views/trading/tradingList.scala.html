@@ -1,0 +1,100 @@
+@(c :models.contract.Contract, transactions :List[models.trading.TradingTransaction])
+
+@import helper._
+
+@main("注文の一覧") {
+	<a href="@routes.OrderController.create(c.contractNumber)">
+		<button type="button" class="btn btn-primary btn-lg">
+			<i class="icon-plus-sign icon-left"></i>登録する
+		</button>
+	</a>
+	<br />
+	<div style="margin: 20px 0;">
+		@value("契約先名", c.party.name),
+		@value("契約分類", c.contractType)<br />
+		@value("代金条項の丸め方法", c.priceRoundingMethod),
+		@value("消費税条項の丸め方法", c.consumptionTaxRoundingMethod),
+		@value("消費税条項の課税単位", c.consumptionTaxCalculationBase)
+	</div>
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>取引日</th>
+				<th>取引種別</th>
+				<th>取引対象</th>
+				<th>不課税</th>
+				<th>注文数</th>
+				<th>代金</th>
+				<th>赤処理</th>
+			</tr>
+		</thead>
+		@for(t <- transactions) {
+			<tr @{ if (t.getPricingTransaction().size() == 0 ) "style=color:#A9A9A9;background:#D3D3D3;" }>
+				<td>@t.transactionNumber</td>
+				<td>@t.effectiveDate.format("yyyy/MM/dd")</td>
+				<td>@t.transactionType</td>
+				<td>@t.tradingSubject</td>
+				@if(t.isUntaxed) {
+				<td>不課税</td>
+				} else {
+				<td>課税</td>
+				}
+				<td>
+					@for(e <- t.getEntries()) {
+						<p>@e.account.getProduct().name (@e.account.getProduct().unitPrice円/キロ) : @e.quantity キログラム</p>
+					}
+				</td>
+				<td>
+					@for(pt <- t.getPricingTransaction()) {
+						@for(pe <- pt.getEntries()) {
+							<p>@pe.account.accountTitle : @pe.price 円</p>
+						}
+					}
+				</td>
+				<td>
+	 				<a data-toggle="modal" href="#myModal">
+						<button type="button" class="btn btn-danger order-cancel" data-number="@t.transactionNumber">
+							<i class="icon-remove-sign"></i>
+						</button>
+					</a>
+				</td>
+			</tr>
+		}
+		<tbody>
+		</tbody>
+	</table>
+		
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <h4 class="modal-title">注文の赤処理</h4>
+	        </div>
+	        <div class="modal-body" id="message"></div>
+	        <div class="modal-footer">
+	        <form action="" method="POST" id="submit-order-cancel">
+		          <button type="button" class="btn btn-default" data-dismiss="modal" id="btn-cancel">キャンセル</button>
+		          <button type="submit" class="btn btn-danger">赤処理する</button>
+	        </form>
+	        </div>
+	      </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	
+	<script type="text/javascript">
+	<!--
+		$(function(){
+			$(".order-cancel").click(function() {
+				var number = $(this).data("number");
+				$("#submit-order-cancel").attr("action", "/tradings/" + number + "/cancel");
+				$("#message").text("注文: #" + number + " を赤処理してよろしいですか？");
+			});
+			$("#btn-cancel").click(function() {
+				$('#myModal').modal('hide');
+			});
+		});
+	// -->
+	</script>
+}

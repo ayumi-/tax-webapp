@@ -4,22 +4,22 @@ import java.math.BigDecimal;
 
 public enum RoundingMethod {
 	切り捨て {
-		public double calc(double d) {
-			return BigDecimal.valueOf(d).setScale(0, BigDecimal.ROUND_DOWN).doubleValue();
+		public BigDecimal calc(BigDecimal d) {
+			return d.setScale(0, BigDecimal.ROUND_DOWN);
 		}
 	},
 	切り上げ {
-		public double calc(double d) {
-			return BigDecimal.valueOf(d).setScale(0, BigDecimal.ROUND_UP).doubleValue();
+		public BigDecimal calc(BigDecimal d) {
+			return d.setScale(0, BigDecimal.ROUND_UP);
 		}
 	},
 	四捨五入 {
-		public double calc(double d) {
-			return BigDecimal.valueOf(d).setScale(0, BigDecimal.ROUND_HALF_UP).doubleValue();
+		public BigDecimal calc(BigDecimal d) {
+			return d.setScale(0, BigDecimal.ROUND_HALF_UP);
 		}
 	};	
 	
-	public double calc(double d) {
+	public BigDecimal calc(BigDecimal d) {
 		return d;
 	}
 }

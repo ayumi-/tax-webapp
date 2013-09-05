@@ -1,5 +1,6 @@
 package models.product;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -20,22 +21,25 @@ public class Product extends Model {
 	
 	public String name;
 	
-	public Integer unitPrice;
+	public BigDecimal unitPrice;
 	
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "item_id")
 	public Item item;
 	
-	public Product(Item item, String name, int unitPrice) {
+	public Product(Item item, String name, BigDecimal unitPrice) {
 		this.item = item;
 		this.name = name;
 		this.unitPrice = unitPrice;
 	}
 
+	public BigDecimal getUnitPrice() {
+		return unitPrice;
+	}
+	
 	public static Finder<Long, Product> find = new Finder<Long, Product>(Long.class, Product.class);
 
 	public static List<Product> findAll() {
 		return find.all();
 	}
-
 }

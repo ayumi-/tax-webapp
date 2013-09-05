@@ -1,5 +1,7 @@
 package global;
 
+import java.math.BigDecimal;
+
 import models.product.Item;
 import models.product.Product;
 import play.Application;
@@ -14,12 +16,12 @@ public class Global extends GlobalSettings {
 		// マスタデータの登録
 		if (Item.findById(Long.valueOf(1)) == null) {
 			Item item = new Item("アラ", false);
-			Product product1 = new Product(item, "鯛のアラ", 273);
-			Product product2 = new Product(item, "ヒラマサのアラ", 126);
+			Product product1 = new Product(item, "鯛のアラ", BigDecimal.valueOf(273));
+			Product product2 = new Product(item, "ヒラマサのアラ", BigDecimal.valueOf(126));
 			
 			item.save();
 			product1.save();
-			product2.save();
+			product2.save();			
 		}
 	}
 }

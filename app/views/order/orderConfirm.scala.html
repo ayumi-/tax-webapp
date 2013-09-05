@@ -1,0 +1,42 @@
+@(o: facades.Order)
+
+@import helper._
+@import views._
+
+@implicitFieldConstructor = @{ FieldConstructor(bootstrapInput.f) } 
+
+@main("注文の登録") {
+	@form(routes.OrderController.save(o.contract.contractNumber), 'class -> "form-horizontal") {
+		@staticForm("契約先名", o.contract.party.name)
+		@staticForm("契約分類", o.contract.contractType)
+		@staticForm("代金条項の丸め方法", o.contract.priceRoundingMethod)
+		@staticForm("消費税条項の丸め方法", o.contract.consumptionTaxRoundingMethod)
+		@staticForm("消費税条項の課税単位", o.contract.consumptionTaxCalculationBase)
+		@staticForm("取引日", o.effectiveDate.format("yyyy/MM/dd"))
+		@staticForm("取引種別", o.transactionType.name)
+		@if(o.isUntaxed) {
+     		@staticForm("不課税", "不課税")
+     	} else {
+     		@staticForm("不課税", "課税")
+     	}
+		@staticForm("取引対象", o.tradingSubject.name)
+		@for(d <- o.details) {
+			@staticForm(d.product.name + "(" + d.product.unitPrice + "円/キロ)", d.quantity + "キログラム")
+		}
+		@for(e <- o.getPricingEntries()) {
+			@staticForm("代金" + "（" + e.getAccount().accountTitle + "）", e.price + "円")
+		}
+		
+	  <div class="form-group">
+	    <div class="col-lg-1">
+	    	<a href="@routes.TradingController.list(o.contract.contractNumber)">
+		    	<button type="button" class="btn btn-default btn-lg">キャンセルする</button>
+	    	</a>
+	    </div>
+	    <div class="col-lg-offset-3 col-lg-5">
+		  <button type="submit" class="btn btn-primary btn-lg">登録する</button>
+	    </div>
+	  </div>
+	}
+	
+}

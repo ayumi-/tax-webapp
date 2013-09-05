@@ -6,7 +6,7 @@
 			<i class="icon-plus-sign icon-left"></i>登録する
 		</button>
 	</a>
-	<br><br>	
+	<br><br>
 	<table class="table table-bordered">
 		<thead>
 			<tr>
@@ -17,7 +17,7 @@
 				<th>代金条項の丸め方法</th>
 				<th>消費税条項の丸め方法</th>
 				<th>消費税条項の課税単位</th>
-				<th>取引</th>
+				<th>注文</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -34,6 +34,11 @@
 					<a href="@routes.OrderController.create(c.contractNumber)">
 						<button type="button" class="btn btn-primary">
 							<i class="icon-plus-sign"></i>
+						</button>
+					</a>
+					<a href="@routes.TradingController.list(c.contractNumber)">
+						<button type="button" class="btn btn-primary">
+							<i class="icon-list"></i>
 						</button>
 					</a>
 				</td>

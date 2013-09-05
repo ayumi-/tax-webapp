@@ -5,7 +5,7 @@
 
 @implicitFieldConstructor = @{ FieldConstructor(bootstrapInput.f) } 
 
-@main("取引の登録") {
+@main("注文の登録") {
 	@form(routes.OrderController.confirm(c.contractNumber), 'class -> "form-horizontal") {
 		@staticForm("契約先名", c.party.name)
 		@staticForm("契約分類", c.contractType)
@@ -17,9 +17,9 @@
 		@select(orderForm("transaction_type"), 
 			options = options(OrderController.transaction_type_options),
 			'_label -> "取引種別", 'class -> "form-control")
-		@helper.checkbox(orderForm("is_untaxed"), '_label -> "課税対象",
-			'checked -> "checked", 'class -> "form-control")
-		@select(orderForm("trading_subject_options"), 
+		@helper.checkbox(orderForm("is_untaxed"), '_label -> "不課税",
+			'class -> "form-control")
+		@select(orderForm("trading_subject"), 
 			options = options(OrderController.trading_subject_options),
 			'_label -> "取引対象", 'class -> "form-control")
 		@for(p <- ps) {
