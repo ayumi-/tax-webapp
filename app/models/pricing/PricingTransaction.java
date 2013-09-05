@@ -41,6 +41,12 @@ public class PricingTransaction extends Transaction {
 		this.tradingTransactionBasis = tradingTransaction;
 	}
 
+	public PricingTransaction(Date effectiveDate, TradingEntry tradingEntry) {
+		this.effectiveDate = effectiveDate;
+		this.tradingTransaction = tradingEntry.getTransaction();
+		this.tradingEntryBasis = tradingEntry;
+	}
+
 	public BigDecimal calculateConsumptionTax() {
 		ConsumptionTaxFacade facade = new ConsumptionTaxFacade(tradingTransaction, totalPrice);
 		

@@ -64,7 +64,7 @@ public class Order {
 		if (base == CalculationBase.合計) {
 			// transaction
 			PricingTransaction pt = new PricingTransaction(effectiveDate, tt);
-			
+
 			// account, entry（商品代金）
 			RoundingMethod priceRoundingMethod = tt.getContract().getPriceRoundingMethod();
 			PricingAccount pa = PricingAccount.getAccount(contract.party, AccountTitle.商品代金);
@@ -75,14 +75,32 @@ public class Order {
 				pt.addTotalPrice(price);
 				pricingEntries.add(new PricingEntry(pt, pa, price));
 			}
-			
+
 			// account, entry（消費税）
-			PricingAccount taxPa = PricingAccount.getAccount(contract.party, AccountTitle.消費税額);
-			pricingEntries.add(new PricingEntry(pt, taxPa, pt.calculateConsumptionTax()));
+			PricingAccount taxAccount = PricingAccount.getAccount(contract.party, AccountTitle.消費税額);
+			pricingEntries.add(new PricingEntry(pt, taxAccount, pt.calculateConsumptionTax()));
+			
 		} else if (base == CalculationBase.明細) {
-			
+			RoundingMethod priceRoundingMethod = tt.getContract().getPriceRoundingMethod();
+			PricingAccount productAccount = PricingAccount.getAccount(contract.party, AccountTitle.商品代金);
+			PricingAccount taxAccount = PricingAccount.getAccount(contract.party, AccountTitle.消費税額);
+
+			for (TradingEntry te : tradingEntries) {
+				// transaction
+				PricingTransaction pt = new PricingTransaction(effectiveDate, te);
+				
+				// entry（商品代金）
+				BigDecimal quantity = BigDecimal.valueOf(te.quantity);
+				BigDecimal price = priceRoundingMethod.calc(
+						te.getAccount().getProduct().getUnitPrice().multiply(quantity));
+				pt.addTotalPrice(price);
+				pricingEntries.add(new PricingEntry(pt, productAccount, price));
+				
+				// entry（消費税）
+				pricingEntries.add(new PricingEntry(pt, taxAccount, pt.calculateConsumptionTax()));
+			}
 		} else if (base == CalculationBase.安い方) {
-			
+			// TODO 実装
 		}
 	}
 
@@ -105,9 +123,4 @@ public class Order {
 			pe.save();
 		}
 	}
-
-	public static List<Order> getList(Long contractNumber, String sortBy, String order) {
-		return null;
-	}
-
 }

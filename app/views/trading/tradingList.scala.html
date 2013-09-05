@@ -30,7 +30,8 @@
 			</tr>
 		</thead>
 		@for(t <- transactions) {
-			<tr @{ if (t.getPricingTransaction().size() == 0 ) "style=color:#A9A9A9;background:#D3D3D3;" }>
+			@defining(t.getPricingTransaction().size()) { p_size =>
+			<tr @{ if ( p_size == 0 ) "style=color:#A9A9A9;background:#D3D3D3;" }>
 				<td>@t.transactionNumber</td>
 				<td>@t.effectiveDate.format("yyyy/MM/dd")</td>
 				<td>@t.transactionType</td>
@@ -53,13 +54,16 @@
 					}
 				</td>
 				<td>
+					@if(p_size != 0) { 
 	 				<a data-toggle="modal" href="#myModal">
 						<button type="button" class="btn btn-danger order-cancel" data-number="@t.transactionNumber">
 							<i class="icon-remove-sign"></i>
 						</button>
 					</a>
+					}
 				</td>
 			</tr>
+			}
 		}
 		<tbody>
 		</tbody>
