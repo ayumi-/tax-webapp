@@ -49,11 +49,16 @@ public class TradingEntry extends Entry {
 		return copy;
 	}
 	
+	public void toRed() {
+		quantity = Math.abs(quantity) * -1;
+	}
+	
 	public static Finder<Long, TradingEntry> find = 
 			new Finder<Long, TradingEntry>(Long.class, TradingEntry.class);
 	
 	public static List<TradingEntry> findByTransaction(TradingTransaction transaction) {
 		return find.where().eq("transaction_number", transaction.transactionNumber).findList();
 	}
+
 
 }

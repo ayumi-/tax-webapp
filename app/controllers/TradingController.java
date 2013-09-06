@@ -1,6 +1,6 @@
 package controllers;
 
-import facade.TradingFacade;
+import facades.TradingFacade;
 import models.contract.Contract;
 import models.trading.TradingTransaction;
 import play.db.ebean.Transactional;

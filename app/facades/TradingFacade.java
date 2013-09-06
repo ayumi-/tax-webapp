@@ -1,4 +1,4 @@
-package facade;
+package facades;
 
 import java.util.List;
 
@@ -17,24 +17,20 @@ public class TradingFacade {
 	}
 
 	public void cancel() {
-		// マイナスの商流を作成する
-//		TradingTransaction tt2 = tradingTransaction.clone();
-//		tt2.save();
+		// エントリーをマイナスにする
 		List<TradingEntry> tes = tradingTransaction.getEntries();
 		for (TradingEntry te : tes) {
 			TradingEntry te2 = te.clone();
-//			te2.transaction = tt2;
-			te2.quantity = Math.abs(te.quantity) * -1;
+			te2.toRed();
 			te2.save();
 		}
-		
-		// 金流のtransaction, entryを削除する
 		List<PricingTransaction> pts = PricingTransaction.findByTradingTransaction(tradingTransaction);
 		for (PricingTransaction pt : pts) {
 			for (PricingEntry pe : pt.getEntries()) {
-				pe.delete();
+				PricingEntry pe2 = pe.clone();
+				pe2.toRed();
+				pe2.save();
 			}
-			pt.delete();
 		}
 	}
 

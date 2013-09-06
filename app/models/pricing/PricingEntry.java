@@ -40,11 +40,22 @@ public class PricingEntry extends Entry {
 	public PricingTransaction getTransaction() {
 		return transaction;
 	}
+	
+	public PricingEntry clone() {
+		PricingEntry copy = (PricingEntry) this._ebean_createCopy();
+		copy.id = null;
+		return copy;
+	}
 
+	public void toRed() {
+		price = Math.abs(price) * -1;
+	}
+	
 	public static Finder<Long, PricingEntry> find = 
 			new Finder<Long, PricingEntry>(Long.class, PricingEntry.class);
 	
 	public static List<PricingEntry> findByTransaction(PricingTransaction transaction) {
 		return find.where().eq("transaction_number", transaction.transactionNumber).findList();
 	}
+
 }
