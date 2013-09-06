@@ -24,7 +24,11 @@
 			@staticForm(d.product.name + "(" + d.product.unitPrice + "円/キロ)", d.quantity + "キログラム")
 		}
 		@for(e <- o.getPricingEntries()) {
-			@staticForm("代金" + "（" + e.getAccount().accountTitle + "）", e.price + "円")
+			@if(e.getAccount().accountTitle == "商品代金") {
+				@staticForm("代金（商品代金）: " + e.getTransaction().tradingEntryBasis.getAccount().getProduct().name, e.price + "円")
+			} else {
+				@staticForm("代金" + "（" + e.getAccount().accountTitle + "）", e.price + "円")
+			}
 		}
 		
 	  <div class="form-group">

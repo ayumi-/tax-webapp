@@ -49,7 +49,11 @@
 				<td>
 					@for(pt <- t.getPricingTransaction()) {
 						@for(pe <- pt.getEntries()) {
-							<p>@pe.account.accountTitle : @pe.price 円</p>
+							@if(pe.account.accountTitle == "商品代金") {
+								<p>@pe.getTransaction().tradingEntryBasis.getAccount().getProduct().name : @pe.price 円</p>
+							} else {
+								<p>@pe.account.accountTitle : @pe.price 円</p>
+							}
 						}
 					}
 				</td>

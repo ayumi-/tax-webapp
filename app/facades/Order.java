@@ -62,23 +62,24 @@ public class Order {
 		TradingTransaction tt = tradingEntries.get(0).getTransaction();
 		CalculationBase base = tt.getContract().getConsumptionTaxCalculationBase();
 		if (base == CalculationBase.合計) {
-			// transaction
-			PricingTransaction pt = new PricingTransaction(effectiveDate, tt);
+			// transaction（消費税）
+			PricingTransaction taxPt = new PricingTransaction(effectiveDate, tt);
 
 			// account, entry（商品代金）
 			RoundingMethod priceRoundingMethod = tt.getContract().getPriceRoundingMethod();
 			PricingAccount pa = PricingAccount.getAccount(contract.party, AccountTitle.商品代金);
 			for (TradingEntry te : tradingEntries) {
+				PricingTransaction pt = new PricingTransaction(effectiveDate, te);
 				BigDecimal quantity = BigDecimal.valueOf(te.quantity);
 				BigDecimal price = priceRoundingMethod.calc(
 						te.getAccount().getProduct().getUnitPrice().multiply(quantity));
-				pt.addTotalPrice(price);
+				taxPt.addTotalPrice(price);
 				pricingEntries.add(new PricingEntry(pt, pa, price));
 			}
 
 			// account, entry（消費税）
 			PricingAccount taxAccount = PricingAccount.getAccount(contract.party, AccountTitle.消費税額);
-			pricingEntries.add(new PricingEntry(pt, taxAccount, pt.calculateConsumptionTax()));
+			pricingEntries.add(new PricingEntry(taxPt, taxAccount, taxPt.calculateConsumptionTax()));
 			
 		} else if (base == CalculationBase.明細) {
 			RoundingMethod priceRoundingMethod = tt.getContract().getPriceRoundingMethod();
