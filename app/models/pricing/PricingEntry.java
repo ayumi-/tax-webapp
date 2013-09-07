@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,6 +24,7 @@ public class PricingEntry extends Entry {
 	@JoinColumn(name = "account_id")
 	public PricingAccount account;
 
+	@Column(precision = 32, scale = 1)
 	public BigDecimal price;
 	
 	public String currency = "円";
