@@ -72,7 +72,7 @@ create table pricing_transaction (
 create table product (
   id                        bigint not null,
   name                      varchar(255),
-  unit_price                decimal(38),
+  unit_price                decimal(32,1),
   item_id                   bigint,
   constraint pk_product primary key (id))
 ;

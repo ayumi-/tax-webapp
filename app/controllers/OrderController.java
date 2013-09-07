@@ -47,7 +47,7 @@ public class OrderController extends Controller {
 			String value = f.quantities.get(id);
 			if (!value.isEmpty()) {
 				Double quantity = Double.valueOf(value);
-				details.add(new OrderDetail(p, quantity));
+				details.add(new OrderDetail(p, BigDecimal.valueOf(quantity)));
 			}
     	}
     	// 注文の作成

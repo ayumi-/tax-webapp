@@ -9,9 +9,9 @@ public class OrderDetail {
 	public Product product;
 	public BigDecimal quantity;
 
-	public OrderDetail(Product product, Double quantity) {
+	public OrderDetail(Product product, BigDecimal quantity) {
 		this.product = product;
-		this.quantity = BigDecimal.valueOf(quantity);
+		this.quantity = quantity;
 	}
 	
 	public Product getProduct() {
