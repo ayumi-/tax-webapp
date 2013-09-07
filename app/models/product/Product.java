@@ -22,7 +22,7 @@ public class Product extends Model {
 	
 	public String name;
 	
-	@Column(precision = 32, scale = 1)
+	@Column(columnDefinition = "NUMERIC", precision = 32, scale = 1)
 	public BigDecimal unitPrice;
 	
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

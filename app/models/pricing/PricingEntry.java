@@ -24,7 +24,7 @@ public class PricingEntry extends Entry {
 	@JoinColumn(name = "account_id")
 	public PricingAccount account;
 
-	@Column(precision = 32, scale = 1)
+	@Column(columnDefinition = "NUMERIC", precision = 32, scale = 1)
 	public BigDecimal price;
 	
 	public String currency = "円";

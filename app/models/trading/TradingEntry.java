@@ -25,7 +25,7 @@ public class TradingEntry extends Entry {
 	@JoinColumn(name = "account_id")
 	public TradingAccount account;
 
-	@Column(precision = 32, scale = 1)
+	@Column(columnDefinition = "NUMERIC", precision = 32, scale = 1)
 	public BigDecimal quantity;
 	
 	public String unit = "KG";
