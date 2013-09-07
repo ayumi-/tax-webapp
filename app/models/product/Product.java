@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -21,6 +22,7 @@ public class Product extends Model {
 	
 	public String name;
 	
+	@Column(precision = 32, scale = 1)
 	public BigDecimal unitPrice;
 	
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
