@@ -54,7 +54,7 @@ create table pricing_entry (
   id                        bigint not null,
   transaction_number        bigint,
   account_id                bigint,
-  price                     decimal(32,1),
+  price                     NUMERIC,
   currency                  varchar(255),
   constraint pk_pricing_entry primary key (id))
 ;
@@ -72,7 +72,7 @@ create table pricing_transaction (
 create table product (
   id                        bigint not null,
   name                      varchar(255),
-  unit_price                decimal(32,1),
+  unit_price                NUMERIC,
   item_id                   bigint,
   constraint pk_product primary key (id))
 ;
@@ -89,7 +89,7 @@ create table trading_entry (
   id                        bigint not null,
   transaction_number        bigint,
   account_id                bigint,
-  quantity                  decimal(32,1),
+  quantity                  NUMERIC,
   unit                      varchar(255),
   constraint pk_trading_entry primary key (id))
 ;
