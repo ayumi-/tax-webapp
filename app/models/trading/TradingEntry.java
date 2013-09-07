@@ -24,7 +24,7 @@ public class TradingEntry extends Entry {
 	@JoinColumn(name = "account_id")
 	public TradingAccount account;
 
-	public Double quantity;
+	public BigDecimal quantity;
 	
 	public String unit = "KG";
 	
@@ -32,7 +32,7 @@ public class TradingEntry extends Entry {
 			BigDecimal quantity) {
 		this.transaction = transaction;
 		this.account = account;
-		this.quantity = quantity.doubleValue();
+		this.quantity = quantity;
 	}
 	
 	public TradingTransaction getTransaction () {
@@ -50,7 +50,7 @@ public class TradingEntry extends Entry {
 	}
 	
 	public void toRed() {
-		quantity = Math.abs(quantity) * -1;
+		quantity = quantity.abs().multiply(BigDecimal.valueOf(-1));
 	}
 	
 	public static Finder<Long, TradingEntry> find = 

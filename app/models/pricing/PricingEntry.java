@@ -23,14 +23,14 @@ public class PricingEntry extends Entry {
 	@JoinColumn(name = "account_id")
 	public PricingAccount account;
 
-	public Double price;
+	public BigDecimal price;
 	
 	public String currency = "円";
 
 	public PricingEntry(PricingTransaction transaction, PricingAccount account, BigDecimal price) {
 		this.transaction = transaction;
 		this.account = account;
-		this.price = price.doubleValue();
+		this.price = price;
 	}
 	
 	public PricingAccount getAccount() {
@@ -48,7 +48,7 @@ public class PricingEntry extends Entry {
 	}
 
 	public void toRed() {
-		price = Math.abs(price) * -1;
+		price = price.abs().multiply(BigDecimal.valueOf(-1));
 	}
 	
 	public static Finder<Long, PricingEntry> find = 

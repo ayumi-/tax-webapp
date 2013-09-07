@@ -70,7 +70,7 @@ public class Order {
 			PricingAccount pa = PricingAccount.getAccount(contract.party, AccountTitle.商品代金);
 			for (TradingEntry te : tradingEntries) {
 				PricingTransaction pt = new PricingTransaction(effectiveDate, te);
-				BigDecimal quantity = BigDecimal.valueOf(te.quantity);
+				BigDecimal quantity = te.quantity;
 				BigDecimal price = priceRoundingMethod.calc(
 						te.getAccount().getProduct().getUnitPrice().multiply(quantity));
 				taxPt.addTotalPrice(price);
@@ -91,7 +91,7 @@ public class Order {
 				PricingTransaction pt = new PricingTransaction(effectiveDate, te);
 				
 				// entry（商品代金）
-				BigDecimal quantity = BigDecimal.valueOf(te.quantity);
+				BigDecimal quantity = te.quantity;
 				BigDecimal price = priceRoundingMethod.calc(
 						te.getAccount().getProduct().getUnitPrice().multiply(quantity));
 				pt.addTotalPrice(price);
