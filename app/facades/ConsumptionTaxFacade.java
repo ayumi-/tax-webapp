@@ -27,7 +27,7 @@ public class ConsumptionTaxFacade {
 	public BigDecimal getConsumptionTaxAmountRounded() {
 		// 消費税ライブラリの呼び出し
 		String url = ConfigFactory.load().getString("taxlib.url");
-		Promise<Response> respons = WS.url(url)
+		Promise<Response> respons = WS.url(url).setTimeout(240000)
 				.setQueryParameter("price", price.toString())
 				.setQueryParameter("targetDate", DateUtils.toString(transaction.effectiveDate, "yyyy/MM/dd"))
 				.setQueryParameter("isTaxed", transaction.isUntaxed.toString())

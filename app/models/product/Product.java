@@ -44,4 +44,8 @@ public class Product extends Model {
 	public static List<Product> findAll() {
 		return find.all();
 	}
+
+	public static Product findById(Long id) {
+		return find.byId(id);
+	}
 }

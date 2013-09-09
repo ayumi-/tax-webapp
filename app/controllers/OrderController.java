@@ -5,6 +5,8 @@ import static play.data.Form.form;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import models.contract.Contract;
 import models.product.Product;
@@ -25,13 +27,17 @@ import forms.OrderForm;
 public class OrderController extends Controller {
 	public static List<String> transaction_type_options = EnumUtils.getList(TransactionType.class);
 	public static List<String> trading_subject_options = EnumUtils.getList(TradingSubjectType.class);
+	public static Map<String, String> product_options = new TreeMap<String, String>();
 	
     public static Result create(Long contractNumber) {
     	Form<OrderForm> form = form(OrderForm.class);
-    	Contract contract = Contract.findById(contractNumber);
+    	Contract contract = Contract.findById(contractNumber);    	
     	List<Product> products = Product.findAll();
+    	for (Product p: products) {
+    		product_options.put(String.valueOf(p.id), p.name + "（" + p.unitPrice + "円/キロ）");
+    	}
         return ok(
-        	orderForm.render(contract, products, form)
+        	orderForm.render(contract, form)
         );
     }
 
@@ -40,16 +46,18 @@ public class OrderController extends Controller {
     	// TODO バリデーション
     	// TODO ユーザが数量フォームを増やせるようにする（現状だといろいろダメ）
     	// 明細の作成
-    	List<Product> products = Product.findAll();
     	List<OrderDetail> details = new ArrayList<OrderDetail>();
-    	for (Product p : products) {
-    		int id = BigDecimal.valueOf(p.id).intValue();
-			String value = f.quantities.get(id);
-			if (!value.isEmpty()) {
-				Double quantity = Double.valueOf(value);
+    	int i = 0;
+    	for (String strId : f.detail_product_id) {
+    		Product p = Product.findById(Long.valueOf(strId));
+    		String strQuantity = f.detail_quantity.get(i);
+			if (!strQuantity.isEmpty()) {
+				Double quantity = Double.valueOf(strQuantity);
 				details.add(new OrderDetail(p, BigDecimal.valueOf(quantity)));
 			}
+			i++;
     	}
+    	
     	// 注文の作成
     	Order order = new Order(contractNumber, f.effective_date, f.transaction_type, 
     			f.is_untaxed, f.trading_subject, details);

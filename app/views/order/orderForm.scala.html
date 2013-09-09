@@ -1,4 +1,4 @@
-@(c: models.contract.Contract)(ps: List[models.product.Product])(orderForm: Form[forms.OrderForm])
+@(c: models.contract.Contract)(orderForm: Form[forms.OrderForm])
 
 @import helper._
 @import views._
@@ -22,11 +22,18 @@
 		@select(orderForm("trading_subject"), 
 			options = options(OrderController.trading_subject_options),
 			'_label -> "取引対象", 'class -> "form-control")
-		@for(p <- ps) {
-			@helper.inputText(orderForm("quantities[" + p.id + "]"), '_label -> {p.name + "(" + p.unitPrice + "円/キロ)"},
-				'class -> "form-control", 'placeholder -> "キログラム単位")
-		}
-		
+		@select(orderForm("detail_product_id[0]"),
+			options = options(OrderController.product_options),
+			'_label -> "商品(1)", 'class -> "form-control")
+		@helper.inputText(orderForm("detail_quantity[0]"),
+			'_label -> "数量(1)",
+			'class -> "form-control", 'placeholder -> "キログラム単位")
+		@select(orderForm("detail_product_id[1]"),
+			options = options(OrderController.product_options),
+			'_label -> "商品(2)", 'class -> "form-control")
+		@helper.inputText(orderForm("detail_quantity[1]"),
+			'_label -> "数量(2)",
+			'class -> "form-control", 'placeholder -> "キログラム単位")
 	  <div class="form-group">
 	    <div class="col-lg-offset-3 col-lg-5">
 		  <button type="submit" class="btn btn-primary btn-lg">確認する</button>
