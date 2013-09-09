@@ -65,7 +65,7 @@ public class TradingTransaction extends Transaction {
 			new Finder<Long, TradingTransaction>(Long.class, TradingTransaction.class);
 	
 	public static List<TradingTransaction> findByContract(Contract contract) {
-		return find.where().eq("contract_number", contract.contractNumber).order("id").findList();
+		return find.where().eq("contract_number", contract.contractNumber).order("transaction_number").findList();
 	}
 
 	public static TradingTransaction finndById(Long transactionNumber) {
