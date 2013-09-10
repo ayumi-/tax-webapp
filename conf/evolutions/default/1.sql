@@ -73,7 +73,9 @@ create table product (
   id                        bigint not null,
   name                      varchar(255),
   unit_price                decimal(38,1),
+  unit                      integer,
   item_id                   bigint,
+  constraint ck_product_unit check (unit in (0,1)),
   constraint pk_product primary key (id))
 ;
 

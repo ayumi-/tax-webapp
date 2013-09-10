@@ -43,7 +43,7 @@
 				}
 				<td>
 					@for(e <- t.getEntries()) {
-						<p>@e.account.getProduct().name (@e.account.getProduct().unitPrice円/キロ) : @e.quantity キログラム</p>
+						<p>@e.account.getProduct().name (@e.account.getProduct().unitPrice円/@e.account.getProduct.unit) : @e.quantity @e.unit</p>
 					}
 				</td>
 				<td>

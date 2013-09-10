@@ -28,14 +28,14 @@
 			'_label -> "商品(1)", 'class -> "form-control")
 		@helper.inputText(orderForm("detail_quantity[0]"),
 			'_label -> "数量(1)",
-			'class -> "form-control", 'placeholder -> "キログラム単位")
+			'class -> "form-control")
 		@select(orderForm("detail_product_id[1]"),
 			options = options(OrderController.product_options),
 			'_default -> "--- 選択してください ---",
 			'_label -> "商品(2)", 'class -> "form-control")
 		@helper.inputText(orderForm("detail_quantity[1]"),
 			'_label -> "数量(2)",
-			'class -> "form-control", 'placeholder -> "キログラム単位")
+			'class -> "form-control")
 	  <div class="form-group">
 	    <div class="col-lg-offset-3 col-lg-5">
 		  <button type="submit" class="btn btn-primary btn-lg">確認する</button>

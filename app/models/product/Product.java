@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import models.tea.Unit;
+
 import play.db.ebean.Model;
 
 @Entity
@@ -25,14 +27,17 @@ public class Product extends Model {
 	@Column(scale = 1)
 	public BigDecimal unitPrice;
 	
+	public Unit unit;
+	
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "item_id")
 	public Item item;
 	
-	public Product(Item item, String name, BigDecimal unitPrice) {
+	public Product(Item item, String name, BigDecimal unitPrice, Unit unit) {
 		this.item = item;
 		this.name = name;
 		this.unitPrice = unitPrice;
+		this.unit = unit;
 	}
 
 	public BigDecimal getUnitPrice() {
@@ -47,5 +52,9 @@ public class Product extends Model {
 
 	public static Product findById(Long id) {
 		return find.byId(id);
+	}
+
+	public Unit getUnit() {
+		return unit;
 	}
 }

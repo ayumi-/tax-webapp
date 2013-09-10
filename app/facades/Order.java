@@ -112,7 +112,7 @@ public class Order {
 		// account, entry
 		for (OrderDetail d : details) {
 			TradingAccount ta = TradingAccount.getAccount(contract.party, d.getProduct());
-			tradingEntries.add(new TradingEntry(tt, ta, d.getQuantity()));
+			tradingEntries.add(new TradingEntry(tt, ta, d.getQuantity(), d.getProduct().getUnit()));
 		}
 	}
 

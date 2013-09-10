@@ -21,7 +21,7 @@
      	}
 		@staticForm("取引対象", o.tradingSubject.name)
 		@for(d <- o.details) {
-			@staticForm(d.product.name + "(" + d.product.unitPrice + "円/キロ)", d.quantity + "キログラム")
+			@staticForm(d.product.name + "(" + d.product.unitPrice + "円/" + d.product.unit.name + ")", d.quantity + d.product.unit.name)
 		}
 		@for(e <- o.getPricingEntries()) {
 			@if(e.getAccount().accountTitle == "商品代金") {

@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import models.tea.Entry;
+import models.tea.Unit;
 
 @Entity
 public class TradingEntry extends Entry {
@@ -28,13 +29,14 @@ public class TradingEntry extends Entry {
 	@Column(scale = 1)
 	public BigDecimal quantity;
 	
-	public String unit = "KG";
+	public String unit;
 	
 	public TradingEntry(TradingTransaction transaction, TradingAccount account,
-			BigDecimal quantity) {
+			BigDecimal quantity, Unit unit) {
 		this.transaction = transaction;
 		this.account = account;
 		this.quantity = quantity;
+		this.unit = unit.name();
 	}
 	
 	public TradingTransaction getTransaction () {

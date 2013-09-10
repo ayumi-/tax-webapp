@@ -34,7 +34,7 @@ public class OrderController extends Controller {
     	Contract contract = Contract.findById(contractNumber);    	
     	List<Product> products = Product.findAll();
     	for (Product p: products) {
-    		product_options.put(String.valueOf(p.id), p.name + "（" + p.unitPrice + "円/キロ）");
+    		product_options.put(String.valueOf(p.id), p.name + "（" + p.unitPrice + "円/" + p.getUnit() + "）");
     	}
         return ok(
         	orderForm.render(contract, form)
