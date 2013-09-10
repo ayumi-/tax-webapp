@@ -24,12 +24,14 @@
 			'_label -> "取引対象", 'class -> "form-control")
 		@select(orderForm("detail_product_id[0]"),
 			options = options(OrderController.product_options),
+			'_default -> "--- 選択してください ---",
 			'_label -> "商品(1)", 'class -> "form-control")
 		@helper.inputText(orderForm("detail_quantity[0]"),
 			'_label -> "数量(1)",
 			'class -> "form-control", 'placeholder -> "キログラム単位")
 		@select(orderForm("detail_product_id[1]"),
 			options = options(OrderController.product_options),
+			'_default -> "--- 選択してください ---",
 			'_label -> "商品(2)", 'class -> "form-control")
 		@helper.inputText(orderForm("detail_quantity[1]"),
 			'_label -> "数量(2)",
