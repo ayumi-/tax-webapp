@@ -5,13 +5,11 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import models.party.Party;
-
 import play.db.ebean.Model;
 
 @Entity
@@ -22,7 +20,7 @@ public class Contract extends Model {
 	@Id
 	public Long contractNumber;
 	
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "party_id")
 	public Party party;
 

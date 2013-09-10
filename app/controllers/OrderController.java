@@ -42,13 +42,27 @@ public class OrderController extends Controller {
     }
 
     public static Result confirm(Long contractNumber) {
-    	OrderForm f = form(OrderForm.class).bindFromRequest().get();
-    	// TODO バリデーション
+    	Form<OrderForm> form = form(OrderForm.class).bindFromRequest();
+    	if (form.hasErrors()) {
+        	// TODO リファクタリング
+        	List<Product> products = Product.findAll();
+        	for (Product p: products) {
+        		product_options.put(String.valueOf(p.id), p.name + "（" + p.unitPrice + "円/" + p.getUnit() + "）");
+        	}
+        	Contract contract = Contract.findById(contractNumber);
+    		return ok(
+    				orderForm.render(contract, form)
+    			);
+    	}
+    	OrderForm f = form.get();
     	// TODO ユーザが数量フォームを増やせるようにする（現状だといろいろダメ）
     	// 明細の作成
     	List<OrderDetail> details = new ArrayList<OrderDetail>();
     	int i = 0;
     	for (String strId : f.detail_product_id) {
+    		if (strId.isEmpty()) {
+    			continue;
+    		}
     		Product p = Product.findById(Long.valueOf(strId));
     		String strQuantity = f.detail_quantity.get(i);
 			if (!strQuantity.isEmpty()) {

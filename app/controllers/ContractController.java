@@ -48,9 +48,15 @@ public class ContractController extends Controller {
     
     @Transactional
     public static Result save() {
-    	ContractForm f = form(ContractForm.class).bindFromRequest().get();
+    	Form<ContractForm> form = form(ContractForm.class).bindFromRequest();
+
+    	if (form.hasErrors()) {
+    		return ok(
+    	    		contractForm.render(form)
+    			);
+    	}
     	
-    	// TODO バリデーション
+    	ContractForm f = form.get();
     	PartyFacade pf = new PartyFacade(f.party_name);    	
     	ContractFacade cf = new ContractFacade(
     			pf.getParty(), f.agreement_date, f.contract_type, f.price_rounding_method,
